@@ -30,3 +30,22 @@ export async function signIn(req,res){
         res.status(501).send(err.message)
     }
 }
+
+export async function userInfo(req,res){
+    const userId = res.locals.session
+
+    try {
+        const {rows:[user]} = await db.query(`SELECT users.id,users.name,SUM(urls."visitCounter") AS visitCount,json_agg(json_build_object(
+            'id',urls.id,
+            'url',urls.url,
+            'shortUrl',urls."shortUrl",
+            'visitCounter',urls."visitCounter"
+        )) AS shortenedUrls FROM users
+        JOIN urls ON urls."ownerId" = users.id
+        WHERE users.id = $1
+        GROUP BY users.id`,[userId])
+        res.status(200).send(user)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
