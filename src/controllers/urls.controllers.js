@@ -1,5 +1,5 @@
 import { db } from "../database/database.connection.js";
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid"
 
 export async function urlShorten(req,res){
     const userId = res.locals.session
