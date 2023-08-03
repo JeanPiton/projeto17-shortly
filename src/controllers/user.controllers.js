@@ -35,12 +35,12 @@ export async function userInfo(req,res){
     const userId = res.locals.session
 
     try {
-        const {rows:[user]} = await db.query(`SELECT users.id,users.name,SUM(urls."visitCounter") AS visitCount,json_agg(json_build_object(
+        const {rows:[user]} = await db.query(`SELECT users.id,users.name,SUM(urls."visitCounter") AS "visitCount",json_agg(json_build_object(
             'id',urls.id,
             'url',urls.url,
             'shortUrl',urls."shortUrl",
             'visitCounter',urls."visitCounter"
-        )) AS shortenedUrls FROM users
+        )) AS "shortenedUrls" FROM users
         JOIN urls ON urls."ownerId" = users.id
         WHERE users.id = $1
         GROUP BY users.id`,[userId])
@@ -52,10 +52,10 @@ export async function userInfo(req,res){
 
 export async function getRank(req,res){
     try {
-        const {rows} = await db.query(`SELECT users.id, users.name, COUNT(urls.*) AS linksCount, COALESCE(SUM(urls."visitCounter"),0) AS visitCount FROM users
+        const {rows} = await db.query(`SELECT users.id, users.name, COUNT(urls.*) AS "linksCount", COALESCE(SUM(urls."visitCounter"),0) AS "visitCount" FROM users
             LEFT JOIN urls ON urls."ownerId"=users.id
             GROUP BY users.id
-            ORDER BY visitCount DESC
+            ORDER BY "visitCount" DESC
             LIMIT 10`)
         res.status(200).send(rows)
     } catch (err) {
