@@ -49,3 +49,16 @@ export async function userInfo(req,res){
         res.status(500).send(err.message)
     }
 }
+
+export async function getRank(req,res){
+    try {
+        const {rows} = await db.query(`SELECT users.id, users.name, COUNT(urls.*) AS linksCount, COALESCE(SUM(urls."visitCounter"),0) AS visitCount FROM users
+            LEFT JOIN urls ON urls."ownerId"=users.id
+            GROUP BY users.id
+            ORDER BY visitCount DESC
+            LIMIT 10`)
+        res.status(200).send(rows)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
