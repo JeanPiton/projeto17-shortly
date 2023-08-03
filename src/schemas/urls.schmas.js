@@ -7,3 +7,7 @@ export const shortenSchema = joi.object({
 export const idSchema = joi.object({
     id:joi.number().integer().required()
 })
+
+export const shortSchema = joi.object({
+    shortUrl:joi.string().required()
+})

@@ -25,3 +25,16 @@ export async function getUrls(req,res){
         res.status(500).send(err.message)
     }
 }
+
+export async function urlRedirect(req,res){
+    const {shortUrl} = req.params
+
+    try {
+        const {rows:[url]} = await db.query(`SELECT * FROM urls WHERE "shortUrl"=$1`,[shortUrl])
+        if(url==undefined) return res.sendStatus(404)
+        await db.query(`UPDATE urls SET "visitCounter"="visitCounter"+1 WHERE id=$1`,[url.id])
+        res.redirect(url.url)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
