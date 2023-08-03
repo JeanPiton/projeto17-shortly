@@ -13,3 +13,15 @@ export async function urlShorten(req,res){
         res.status(500).send(err.message)
     }
 }
+
+export async function getUrls(req,res){
+    const {id} = req.params
+    
+    try {
+        const {rows:[urls]} = await db.query(`SELECT * FROM urls WHERE id=$1`,[id])
+        if(urls==undefined) return res.sendStatus(404)
+        res.status(200).send({id,shortUrl:urls.shortUrl,url:urls.url})
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
