@@ -156,7 +156,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (6, 'João', 'joao@driven.com.br', '$2b$10$QhZ/YzVIA9qk3ctiVOICA.Oq1GR7Lcc/iRUlFp.2qa24X8Bk0V2h6', '2023-08-03 00:50:31.327709');
 
 
 --
@@ -177,7 +176,7 @@ SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 6, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
