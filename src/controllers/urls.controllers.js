@@ -38,3 +38,18 @@ export async function urlRedirect(req,res){
         res.status(500).send(err.message)
     }
 }
+
+export async function deleteUrl(req,res){
+    const userId = res.locals.session
+    const {id} = req.params
+
+    try {
+        const {rows} = await db.query(`SELECT * FROM urls WHERE id=$1`,[id])
+        if(rows.length == 0) return res.sendStatus(404)
+        if(rows[0].ownerId!=userId) return res.sendStatus(401)
+        await db.query(`DELETE FROM urls WHERE id=$1`,[id])
+        res.sendStatus(204)
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
