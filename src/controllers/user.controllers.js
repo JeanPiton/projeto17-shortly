@@ -39,7 +39,7 @@ export async function userInfo(req,res){
             'id',urls.id,
             'url',urls.url,
             'shortUrl',urls."shortUrl",
-            'visitCounter',urls."visitCounter"
+            'visitCount',urls."visitCounter"
         )) AS "shortenedUrls" FROM users
         JOIN urls ON urls."ownerId" = users.id
         WHERE users.id = $1
